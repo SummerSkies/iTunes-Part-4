@@ -12,6 +12,7 @@ class StoreItemContainerViewController: UIViewController, UISearchResultsUpdatin
     var items = [StoreItem]()
     
     var tableViewDataSource: UITableViewDiffableDataSource<String, StoreItem>!
+    var collectionViewDataSource: UICollectionViewDiffableDataSource<String, StoreItem>!
 
     let queryOptions = ["movie", "music", "software", "ebook"]
     
@@ -46,37 +47,42 @@ class StoreItemContainerViewController: UIViewController, UISearchResultsUpdatin
            StoreItemListTableViewController {
             configureTableViewDataSource(tableViewController.tableView)
         }
+        if let collectionViewController = segue.destination as?
+           StoreItemCollectionViewController {
+            configureCollectionViewDataSource(collectionViewController.collectionView)
+        }
     }
     
     func configureTableViewDataSource(_ tableView: UITableView) {
-        tableViewDataSource = UITableViewDiffableDataSource<String,
-        StoreItem>(tableView: tableView, cellProvider: { (tableView,
-                                                          indexPath, item) -> UITableViewCell? in
-            let cell = tableView.dequeueReusableCell(withIdentifier:
-                                                        "Item", for: indexPath) as! ItemTableViewCell
+        tableViewDataSource = UITableViewDiffableDataSource<String, StoreItem>(tableView: tableView, cellProvider: { (tableView, indexPath, item) -> UITableViewCell? in
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Item", for: indexPath) as! ItemTableViewCell
             
             self.tableViewImageLoadTasks[indexPath]?.cancel()
             self.tableViewImageLoadTasks[indexPath] = Task {
-                cell.titleLabel.text = item.name
-                cell.detailLabel.text = item.artist
-                cell.itemImageView.image = UIImage(systemName: "photo")
-                do {
-                    let image = try await
-                    self.storeItemController.fetchImage(from:
-                                                            item.artworkURL)
-                    
-                    cell.itemImageView.image = image
-                } catch let error as NSError where error.domain ==
-                            NSURLErrorDomain && error.code == NSURLErrorCancelled {
-                    // Ignore cancellation errors
-                } catch {
-                    cell.itemImageView.image = UIImage(systemName:
-                                                        "photo")
-                    print("Error fetching image: \(error)")
-                }
+                await cell.configure(for: item, storeItemController: self.storeItemController)
                 self.tableViewImageLoadTasks[indexPath] = nil
             }
             
+            return cell
+        })
+    }
+    
+    func configureCollectionViewDataSource(_ collectionView:
+       UICollectionView) {
+        collectionViewDataSource =
+           UICollectionViewDiffableDataSource<String, StoreItem>(collectionView: collectionView, cellProvider:
+       { (collectionView, indexPath, item) -> UICollectionViewCell? in
+            let cell =
+               collectionView.dequeueReusableCell(withReuseIdentifier:
+               "Item", for: indexPath) as! ItemCollectionViewCell
+    
+            self.collectionViewImageLoadTasks[indexPath]?.cancel()
+            self.collectionViewImageLoadTasks[indexPath] = Task {
+                await cell.configure(for: item, storeItemController: self.storeItemController)
+                self.collectionViewImageLoadTasks[indexPath] = nil
+            }
+    
             return cell
         })
     }
@@ -97,6 +103,12 @@ class StoreItemContainerViewController: UIViewController, UISearchResultsUpdatin
                 
         let searchTerm = searchController.searchBar.text ?? ""
         let mediaType = queryOptions[searchController.searchBar.selectedScopeButtonIndex]
+        
+        // Cancel any images that are still being fetched and reset the imageTask dictionaries​ 
+        collectionViewImageLoadTasks.values.forEach { task in task.cancel() }
+        collectionViewImageLoadTasks = [:]
+        tableViewImageLoadTasks.values.forEach { task in task.cancel() }
+        tableViewImageLoadTasks = [:]
         
         // cancel existing task since we will not use the result
         searchTask?.cancel()
@@ -127,9 +139,11 @@ class StoreItemContainerViewController: UIViewController, UISearchResultsUpdatin
                 }
                 // apply data source changes
                 await tableViewDataSource.apply(itemsSnapshot, animatingDifferences: true)
+                await collectionViewDataSource.apply(itemsSnapshot, animatingDifferences: true)
             } else {
                 // apply data source changes
                 await tableViewDataSource.apply(itemsSnapshot, animatingDifferences: true)
+                await collectionViewDataSource.apply(itemsSnapshot, animatingDifferences: true)
             }
             searchTask = nil
         }

@@ -18,6 +18,8 @@
 		18A6053323CF9ADA002037CA /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A6053223CF9ADA002037CA /* ItemTableViewCell.swift */; };
 		18A6053523CFABBB002037CA /* StoreItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A6053423CFABBB002037CA /* StoreItem.swift */; };
 		18A6053723CFABDC002037CA /* StoreItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A6053623CFABDC002037CA /* StoreItemController.swift */; };
+		86AEF36C2A3A0B3900BDD4C5 /* ItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AEF36B2A3A0B3900BDD4C5 /* ItemCollectionViewCell.swift */; };
+		86AEF36E2A3A0C9200BDD4C5 /* ItemDisplaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AEF36D2A3A0C9200BDD4C5 /* ItemDisplaying.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		18A6053223CF9ADA002037CA /* ItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTableViewCell.swift; sourceTree = "<group>"; };
 		18A6053423CFABBB002037CA /* StoreItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItem.swift; sourceTree = "<group>"; };
 		18A6053623CFABDC002037CA /* StoreItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemController.swift; sourceTree = "<group>"; };
+		86AEF36B2A3A0B3900BDD4C5 /* ItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
+		86AEF36D2A3A0C9200BDD4C5 /* ItemDisplaying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDisplaying.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,10 +75,12 @@
 				18A6053223CF9ADA002037CA /* ItemTableViewCell.swift */,
 				18A6051E23CF9802002037CA /* SceneDelegate.swift */,
 				18A6053423CFABBB002037CA /* StoreItem.swift */,
+				86AEF36B2A3A0B3900BDD4C5 /* ItemCollectionViewCell.swift */,
 				18A6053623CFABDC002037CA /* StoreItemController.swift */,
 				18A6053023CF9829002037CA /* StoreItemListTableViewController.swift */,
 				1812E9A223F36978009BBFA7 /* StoreItemCollectionViewController.swift */,
 				1812E9A023F35901009BBFA7 /* StoreItemContainerViewController.swift */,
+				86AEF36D2A3A0C9200BDD4C5 /* ItemDisplaying.swift */,
 				18A6052523CF9803002037CA /* Assets.xcassets */,
 				18A6052723CF9803002037CA /* LaunchScreen.storyboard */,
 				18A6052223CF9802002037CA /* Main.storyboard */,
@@ -155,6 +161,8 @@
 				18A6053323CF9ADA002037CA /* ItemTableViewCell.swift in Sources */,
 				1812E9A323F36978009BBFA7 /* StoreItemCollectionViewController.swift in Sources */,
 				18A6053523CFABBB002037CA /* StoreItem.swift in Sources */,
+				86AEF36C2A3A0B3900BDD4C5 /* ItemCollectionViewCell.swift in Sources */,
+				86AEF36E2A3A0C9200BDD4C5 /* ItemDisplaying.swift in Sources */,
 				18A6053723CFABDC002037CA /* StoreItemController.swift in Sources */,
 				18A6053123CF9829002037CA /* StoreItemListTableViewController.swift in Sources */,
 				18A6051D23CF9802002037CA /* AppDelegate.swift in Sources */,
